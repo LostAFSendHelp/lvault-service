@@ -64,7 +64,7 @@ export const scanDocument = async(
                     text: "You are provided with a list of OCR-extracted texts accompanied by their coordinates, relative to the receipt photo's top-left origin. The original image dimensions are also provided."
                 }, {
                     type: "text", 
-                    text: "Based on their relative position on the receipt, categorize the texts into transaction amount (currency being VND, thousand separator being comma or period), date time of transaction, and note."
+                    text: "Based on their relative position on the receipt, categorize the texts into transaction amount (currency being VND, thousand separator being comma or period, no decimal point), date time of transaction, and note. For date time, if date format cannot be inferred, assume the format is DD/MM/YYYY. If time format cannot be inferred, assume the format is HH:MM."
                 }, {
                     type: "text", 
                     text: "Then create transaction objects with the specified fields."
