@@ -9,7 +9,7 @@ const responseSchema = zodResponseFormat(
         data: z.array(
             z.object({
                 amount: z.number().describe("The amount of the transaction"),
-                timestamp: z.nullable(z.number()).describe("The timestamp of the transaction"),
+                timestampString: z.nullable(z.string()).describe("The timestamp string of the transaction, in format dd/MM/yyyy HH:mm"),
                 note: z.nullable(z.string()).describe("The notes of the transaction")
                 // label: z.array(z.string()).describe("The label IDs of the transaction")
             })
@@ -64,7 +64,7 @@ export const scanDocument = async(
                     text: "You are provided with a list of OCR-extracted texts accompanied by their coordinates, relative to the receipt photo's top-left origin. The original image dimensions are also provided."
                 }, {
                     type: "text", 
-                    text: "Based on their relative position on the receipt, categorize the texts into transaction amount (currency being VND, thousand separator being comma or period, no decimal point), date time of transaction, and note. For date time, if date format cannot be inferred, assume the format is DD/MM/YYYY. If time format cannot be inferred, assume the format is HH:MM."
+                    text: "Based on their relative position on the receipt, categorize the texts into transaction amount (currency being VND, thousand separator being comma or period, no decimal point, and amount does not have to be rounded to the thousands), date time of transaction, and note. If the date time is incomplete, assume the missing parts as follows: if only hour and minute are available, assume the date is today; if only the date is available, assume the time is 09:00:00. Source string might also be in mmddyyyy format for date and HH:mm:ss for time."
                 }, {
                     type: "text", 
                     text: "Then create transaction objects with the specified fields."
